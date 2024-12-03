@@ -8,64 +8,70 @@
     <link rel="stylesheet" defer href="./style.css" />
   </head>
   <body>
-    <div class="container"></div>
-    <dialog class="dialog">
-      <form class="book-form" method="dialog">
-        <div>
-          <label for="title">Title</label>
-          <input type="text" id="title" name="title" class="title" required />
-        </div>
-        <div>
-          <label for="author">Author</label>
-          <input
-            type="text"
-            id="author"
-            name="author"
-            class="author"
-            required
-          />
-        </div>
-        <div>
-          <label for="pages">Pages</label>
-          <input
-            type="number"
-            min="1"
-            id="pages"
-            name="pages"
-            class="pages"
-            required
-          />
-        </div>
-        <fieldset>
-          <legend>It's Been Read</legend>
+    <div class="wrapper">
+      <div class="heading">
+        <h1>Library</h1>
+      </div>
+      <p><button class="add-new-book-btn">Add New Book</button></p>
+
+      <div class="container"></div>
+      <dialog class="dialog">
+        <form class="book-form" method="dialog">
           <div>
-            <label for="isRead">Yes</label>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="title" required />
+          </div>
+          <div>
+            <label for="author">Author</label>
             <input
-              type="radio"
-              id="isRead"
-              value="Read"
-              name="isRead"
-              class="isReadYes"
+              type="text"
+              id="author"
+              name="author"
+              class="author"
               required
             />
           </div>
           <div>
-            <label for="isRead">No</label>
+            <label for="pages">Pages</label>
             <input
-              type="radio"
-              id="isRead"
-              value="not Read"
-              name="isRead"
-              class="isReadNo"
+              type="number"
+              min="1"
+              id="pages"
+              name="pages"
+              class="pages"
               required
             />
           </div>
-        </fieldset>
-        <output class="error-output"></output>
-        <button class="add-book-btn">Add Book</button>
-        <button class="close-form-btn" autofocus>Close</button>
-      </form>
-    </dialog>
-    <p><button class="add-new-book-btn">Add New Book</button></p>
+          <fieldset>
+            <legend>It's Been Read</legend>
+            <div>
+              <label for="isReadYes">Yes</label>
+              <input
+                type="radio"
+                id="isReadYes"
+                value="Read"
+                name="isRead"
+                class="isReadYes"
+                required
+              />
+            </div>
+            <div>
+              <label for="isReadNo">No</label>
+              <input
+                type="radio"
+                id="isReadNo"
+                value="Not Read"
+                name="isRead"
+                class="isReadNo"
+                required
+              />
+            </div>
+          </fieldset>
+          <output class="error-output"></output>
+          <button class="add-book-btn">Add Book</button>
+          <button class="close-form-btn" autofocus>Close</button>
+        </form>
+      </dialog>
+    </div>
   </body>
 </html>

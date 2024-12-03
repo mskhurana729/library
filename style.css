@@ -1,3 +1,44 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+}
+.add-new-book-btn {
+  margin-left: auto;
+  margin-right: auto;
+  /* border: 1px solid black; */
+  display: block;
+}
+.heading {
+  display: flex;
+  justify-content: center;
+  color: darkgray;
+}
+.container {
+  background-color: lightgray;
+  padding: 15px;
+  border-radius: 10px;
+  /* display: flex;
+  justify-content: center;
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+.bookDiv {
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  box-shadow: -2px 5px 5px gray;
+  font-weight: bold;
+  margin: 10px;
+  /* width: 300px; */
+}
 form {
   padding: 15px;
 }
@@ -47,6 +88,8 @@ button {
 }
 
 dialog {
+  margin-top: auto;
+  margin-bottom: auto;
   animation: fade-out 0.7s ease-out;
 }
 dialog[open] {
@@ -98,4 +141,14 @@ button {
 }
 dialog::backdrop {
   opacity: 20%;
+}
+::backdrop {
+  background-image: linear-gradient(
+    45deg,
+    magenta,
+    rebeccapurple,
+    dodgerblue,
+    green
+  );
+  opacity: 0.75;
 }

@@ -1,17 +1,4 @@
-const myLibrary = [
-  {
-    title: "abcd",
-    author: "sdfasd",
-    pages: 89,
-    isRead: "read",
-  },
-  {
-    title: "abcdfadd",
-    author: "fasdfsdfasd",
-    pages: 55,
-    isRead: "not read",
-  },
-];
+const myLibrary = [];
 const container = document.querySelector(".container");
 const dialog = document.querySelector(".dialog");
 const addNewBookBtn = document.querySelector(".add-new-book-btn");
@@ -26,6 +13,7 @@ let bookIsReadNo = document.querySelector(".isReadNo");
 const errorOutput = document.querySelector(".error-output");
 
 let removeBtnCounter = 0;
+let changeReadStatusBtnCounter = 0;
 
 function Book(title, author, pages, isRead) {
   this.title = title;
@@ -33,6 +21,14 @@ function Book(title, author, pages, isRead) {
   this.pages = pages;
   this.isRead = isRead;
 }
+Book.prototype.changeReadStatus = function () {
+  if (this.isRead === "Read") {
+    this.isRead = "Not Read";
+  } else {
+    this.isRead = "Read";
+  }
+  displayBooks();
+};
 function createBook(title, author, pages, isRead) {
   let newBook = new Book(title, author, pages, isRead);
   addBookToLibrary(newBook);
@@ -45,9 +41,21 @@ function showBook(book) {
   let bookDiv = document.createElement("div");
   bookDiv.classList.add("bookDiv");
   bookDiv.textContent = `${book.title} by ${book.author} has ${book.pages} pages, ${book.isRead}`;
+  bookDiv.append(createChangeReadStatusBtn());
   bookDiv.append(createRemoveBookBtn());
   container.appendChild(bookDiv);
-  console.log(bookDiv);
+}
+function createChangeReadStatusBtn() {
+  let changeReadStatusBtn = document.createElement("button");
+  changeReadStatusBtn.classList.add("changeReadStatusBtn");
+  changeReadStatusBtn.setAttribute(
+    "data-book-index",
+    changeReadStatusBtnCounter
+  );
+  changeReadStatusBtnCounter++;
+  changeReadStatusBtn.textContent = "Change Read Status";
+
+  return changeReadStatusBtn;
 }
 function createRemoveBookBtn() {
   let removeBtn = document.createElement("button");
@@ -65,9 +73,21 @@ function displayBooks() {
     showBook(book);
   });
   activateRemoveBtnEventListener();
+  activateChangeReadStatusBtnEventListener();
   resetFormElements();
 }
-
+function activateChangeReadStatusBtnEventListener() {
+  const changeReadStatusBtns = document.querySelectorAll(
+    ".changeReadStatusBtn"
+  );
+  changeReadStatusBtns.forEach((changeReadStatusBtn) => {
+    changeReadStatusBtn.addEventListener("click", (e) => {
+      let indexOfBookWhichReadStatusHasToChange =
+        e.target.getAttribute("data-book-index");
+      myLibrary[indexOfBookWhichReadStatusHasToChange].changeReadStatus();
+    });
+  });
+}
 function activateRemoveBtnEventListener() {
   const removeBtns = document.querySelectorAll(".removeBtn");
   removeBtns.forEach((removeBtn) => {
@@ -97,6 +117,7 @@ function resetFormElements() {
   bookIsReadYes.checked = false;
   bookIsReadNo.checked = false;
   removeBtnCounter = 0;
+  changeReadStatusBtnCounter = 0;
 }
 function getBookIsRead() {
   if (bookIsReadYes.checked) {
@@ -129,7 +150,6 @@ addBookBtn.addEventListener("click", (e) => {
       bookIsRead.value
     );
 
-    // resetFormElements();
     displayBooks();
   }
 });
@@ -144,4 +164,3 @@ closeFormBtn.addEventListener("click", () => {
 });
 
 //we need to add remove button to every book which will delete the book whenever user clicks it.
-displayBooks();
