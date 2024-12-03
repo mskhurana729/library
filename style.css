@@ -1,0 +1,101 @@
+form {
+  padding: 15px;
+}
+dialog {
+  margin-top: 20px;
+  box-shadow: -2px 5px 5px gray;
+  border: none;
+}
+/* form * {
+  margin: 10px;
+} */
+input {
+  margin-left: auto;
+  font-size: 16px;
+  padding: 5px;
+}
+label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+fieldset {
+  margin-top: 20px;
+  font-weight: bold;
+}
+form button {
+  margin-top: 20px;
+}
+fieldset * {
+  display: inline;
+}
+fieldset div {
+  margin: 10px;
+}
+button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: darkgray;
+  color: white;
+  box-shadow: -2px 5px 5px gray;
+  font-size: 16px;
+  border: 1px solid gray;
+  font-weight: bold;
+  margin: 10px;
+}
+
+dialog {
+  animation: fade-out 0.7s ease-out;
+}
+dialog[open] {
+  animation: fade-in 0.7s ease-out;
+}
+dialog[open]::backdrop {
+  animation: backdrop-fade-in 0.7s ease-out forwards;
+}
+
+/* Animation keyframes */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+    display: block;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+    display: block;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none;
+  }
+}
+
+@keyframes backdrop-fade-in {
+  0% {
+    background-color: rgb(0, 0, 0 / 0%);
+  }
+  100% {
+    background-color: rgb(0, 0, 0 / 25%);
+  }
+}
+body,
+button {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+dialog::backdrop {
+  opacity: 20%;
+}
