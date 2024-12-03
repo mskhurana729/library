@@ -25,16 +25,62 @@ let bookIsReadYes = document.querySelector(".isReadYes");
 let bookIsReadNo = document.querySelector(".isReadNo");
 const errorOutput = document.querySelector(".error-output");
 
-//whenever the button is clicked it will open a dialog to add a new book
-addNewBookBtn.addEventListener("click", () => {
-  dialog.showModal();
-});
+let removeBtnCounter = 0;
 
-//to close the form dialog
-closeFormBtn.addEventListener("click", () => {
-  dialog.close();
-});
+function Book(title, author, pages, isRead) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.isRead = isRead;
+}
+function createBook(title, author, pages, isRead) {
+  let newBook = new Book(title, author, pages, isRead);
+  addBookToLibrary(newBook);
+}
+function addBookToLibrary(newBook) {
+  myLibrary.push(newBook);
+}
 
+function showBook(book) {
+  let bookDiv = document.createElement("div");
+  bookDiv.classList.add("bookDiv");
+  bookDiv.textContent = `${book.title} by ${book.author} has ${book.pages} pages, ${book.isRead}`;
+  bookDiv.append(createRemoveBookBtn());
+  container.appendChild(bookDiv);
+  console.log(bookDiv);
+}
+function createRemoveBookBtn() {
+  let removeBtn = document.createElement("button");
+  removeBtn.classList.add("removeBtn");
+  removeBtn.setAttribute("data-book-index", removeBtnCounter);
+  removeBtnCounter++;
+  removeBtn.textContent = "Remove Book";
+  return removeBtn;
+}
+
+//write  a function which loops through an array and display each book on the page.
+function displayBooks() {
+  container.textContent = "";
+  myLibrary.forEach((book) => {
+    showBook(book);
+  });
+  activateRemoveBtnEventListener();
+  resetFormElements();
+}
+
+function activateRemoveBtnEventListener() {
+  const removeBtns = document.querySelectorAll(".removeBtn");
+  removeBtns.forEach((removeBtn) => {
+    removeBtn.addEventListener("click", (e) => {
+      let indexOfBookToBeRemoved = e.target.getAttribute("data-book-index");
+      removeBookFromLibrary(indexOfBookToBeRemoved);
+    });
+  });
+}
+function removeBookFromLibrary(index) {
+  myLibrary.splice(index, 1);
+  displayBooks();
+}
 function validateForm(title, author, pages, isRead) {
   console.log(title && author && pages && isRead);
   if (title && author && pages > 0 && isRead) {
@@ -50,6 +96,7 @@ function resetFormElements() {
   bookPages.value = "";
   bookIsReadYes.checked = false;
   bookIsReadNo.checked = false;
+  removeBtnCounter = 0;
 }
 function getBookIsRead() {
   if (bookIsReadYes.checked) {
@@ -82,37 +129,19 @@ addBookBtn.addEventListener("click", (e) => {
       bookIsRead.value
     );
 
-    resetFormElements();
+    // resetFormElements();
     displayBooks();
   }
 });
-function Book(title, author, pages, isRead) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
-}
-function createBook(title, author, pages, isRead) {
-  let newBook = new Book(title, author, pages, isRead);
-  addBookToLibrary(newBook);
-}
-function addBookToLibrary(newBook) {
-  myLibrary.push(newBook);
-}
+//whenever the button is clicked it will open a dialog to add a new book
+addNewBookBtn.addEventListener("click", () => {
+  dialog.showModal();
+});
 
-//write  a function which loops through an array and display each book on the page.
-function displayBooks() {
-  container.textContent = "";
-  myLibrary.forEach((book) => {
-    showBook(book);
-  });
-}
+//to close the form dialog
+closeFormBtn.addEventListener("click", () => {
+  dialog.close();
+});
 
-function showBook(book) {
-  let bookDiv = document.createElement("div");
-  bookDiv.classList.add("bookDiv");
-  bookDiv.textContent = `${book.title} by ${book.author} has ${book.pages} pages, ${book.isRead}`;
-  container.appendChild(bookDiv);
-}
-
+//we need to add remove button to every book which will delete the book whenever user clicks it.
 displayBooks();
