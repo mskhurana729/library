@@ -1,12 +1,14 @@
+import { Validate } from './Validate.js';
+
 class Library {
   static myLibrary = [];
-  static bookIsReadYes = document.querySelector(".isReadYes");
-  static bookIsReadNo = document.querySelector(".isReadNo");
-  static container = document.querySelector(".container");
+  static bookIsReadYes = document.querySelector('.isReadYes');
+  static bookIsReadNo = document.querySelector('.isReadNo');
+  static container = document.querySelector('.container');
   static changeReadStatusBtnCounter = 0;
-  static bookTitle = document.querySelector(".title");
-  static bookAuthor = document.querySelector(".author");
-  static bookPages = document.querySelector(".pages");
+  static bookTitle = document.querySelector('.title');
+  static bookAuthor = document.querySelector('.author');
+  static bookPages = document.querySelector('.pages');
   static removeBtnCounter = 0;
 
   static createBook(title, author, pages, isRead) {
@@ -17,29 +19,29 @@ class Library {
     this.myLibrary.push(newBook);
   }
   static createChangeReadStatusBtn() {
-    let changeReadStatusBtn = document.createElement("button");
-    changeReadStatusBtn.classList.add("changeReadStatusBtn");
+    let changeReadStatusBtn = document.createElement('button');
+    changeReadStatusBtn.classList.add('changeReadStatusBtn');
     changeReadStatusBtn.setAttribute(
-      "data-book-index",
+      'data-book-index',
       this.changeReadStatusBtnCounter
     );
     this.changeReadStatusBtnCounter++;
-    changeReadStatusBtn.textContent = "Change Read Status";
+    changeReadStatusBtn.textContent = 'Change Read Status';
 
     return changeReadStatusBtn;
   }
   static createRemoveBookBtn() {
-    let removeBtn = document.createElement("button");
-    removeBtn.classList.add("removeBtn");
-    removeBtn.setAttribute("data-book-index", this.removeBtnCounter);
+    let removeBtn = document.createElement('button');
+    removeBtn.classList.add('removeBtn');
+    removeBtn.setAttribute('data-book-index', this.removeBtnCounter);
     this.removeBtnCounter++;
-    removeBtn.textContent = "Remove Book";
+    removeBtn.textContent = 'Remove Book';
     return removeBtn;
   }
 
   static showBook(book) {
-    let bookDiv = document.createElement("div");
-    bookDiv.classList.add("bookDiv");
+    let bookDiv = document.createElement('div');
+    bookDiv.classList.add('bookDiv');
     bookDiv.textContent = `${book.title} by ${book.author} has ${book.pages} pages, ${book.isRead}`;
     bookDiv.append(this.createChangeReadStatusBtn());
     bookDiv.append(this.createRemoveBookBtn());
@@ -54,14 +56,13 @@ class Library {
   }
   static activateChangeReadStatusBtnEventListener() {
     const changeReadStatusBtns = document.querySelectorAll(
-      ".changeReadStatusBtn"
+      '.changeReadStatusBtn'
     );
     changeReadStatusBtns.forEach((changeReadStatusBtn) => {
-      changeReadStatusBtn.addEventListener("click", (e) => {
+      changeReadStatusBtn.addEventListener('click', (e) => {
         let indexOfBookWhichReadStatusHasToChange =
-          e.target.getAttribute("data-book-index");
+          e.target.getAttribute('data-book-index');
 
-        // console.log(this.changeReadStatus());
         this.myLibrary[
           indexOfBookWhichReadStatusHasToChange
         ].changeReadStatus();
@@ -70,25 +71,25 @@ class Library {
   }
 
   static activateRemoveBtnEventListener() {
-    const removeBtns = document.querySelectorAll(".removeBtn");
+    const removeBtns = document.querySelectorAll('.removeBtn');
     removeBtns.forEach((removeBtn) => {
-      removeBtn.addEventListener("click", (e) => {
-        let indexOfBookToBeRemoved = e.target.getAttribute("data-book-index");
+      removeBtn.addEventListener('click', (e) => {
+        let indexOfBookToBeRemoved = e.target.getAttribute('data-book-index');
         this.removeBookFromLibrary(indexOfBookToBeRemoved);
       });
     });
   }
   static resetFormElements() {
-    this.bookTitle.value = "";
-    this.bookAuthor.value = "";
-    this.bookPages.value = "";
+    this.bookTitle.value = '';
+    this.bookAuthor.value = '';
+    this.bookPages.value = '';
     this.bookIsReadYes.checked = false;
     this.bookIsReadNo.checked = false;
     this.removeBtnCounter = 0;
     this.changeReadStatusBtnCounter = 0;
   }
   static displayBooks() {
-    this.container.textContent = "";
+    this.container.textContent = '';
     this.myLibrary.forEach((book) => {
       this.showBook(book);
     });
@@ -118,10 +119,10 @@ class Book extends Library {
     this.isRead = isRead;
   }
   changeReadStatus = function () {
-    if (this.isRead === "Read") {
-      this.isRead = "Not Read";
+    if (this.isRead === 'Read') {
+      this.isRead = 'Not Read';
     } else {
-      this.isRead = "Read";
+      this.isRead = 'Read';
     }
     Library.displayBooks();
   };
@@ -132,32 +133,27 @@ function validateForm(title, author, pages, isRead) {
   if (title && author && pages > 0 && isRead) {
     return true;
   } else {
-    errorOutput.textContent = "Please Fill The Inputs Correctly";
+    errorOutput.textContent = 'Please Fill The Inputs Correctly';
     return false;
   }
 }
 
 class Render {
-  static dialog = document.querySelector(".dialog");
-  static addNewBookBtn = document.querySelector(".add-new-book-btn");
-  static addBookBtn = document.querySelector(".add-book-btn");
-  static closeFormBtn = document.querySelector(".close-form-btn");
-  static bookForm = document.querySelector(".book-form");
-  static errorOutput = document.querySelector(".error-output");
+  static dialog = document.querySelector('.dialog');
+  static addNewBookBtn = document.querySelector('.add-new-book-btn');
+  static addBookBtn = document.querySelector('.add-book-btn');
+  static closeFormBtn = document.querySelector('.close-form-btn');
+  static bookForm = document.querySelector('.book-form');
+  static errorOutput = document.querySelector('.error-output');
   //to get the data from form when submitted
 
   static activateLibraryEventListeners() {
-    this.addBookBtn.addEventListener("click", (e) => {
+    this.addBookBtn.addEventListener('click', (e) => {
       e.preventDefault();
       let bookIsRead = Library.getBookIsRead();
 
-      let isFormValidate = validateForm(
-        Library.bookTitle.value,
-        Library.bookAuthor.value,
-        Library.bookPages.value,
-        bookIsRead.value
-      );
-
+      let isFormValidate = Validate.validateFormEvent();
+      console.log(isFormValidate);
       if (isFormValidate) {
         this.dialog.close();
         Library.createBook(
@@ -168,20 +164,19 @@ class Render {
         );
 
         Library.displayBooks();
+        Validate.clearErrors();
       }
     });
     //whenever the button is clicked it will open a dialog to add a new book
-    this.addNewBookBtn.addEventListener("click", () => {
+    this.addNewBookBtn.addEventListener('click', () => {
       this.dialog.showModal();
     });
 
     //to close the form dialog
-    this.closeFormBtn.addEventListener("click", () => {
+    this.closeFormBtn.addEventListener('click', () => {
       this.dialog.close();
     });
   }
 }
 
 Render.activateLibraryEventListeners();
-
-//we need to add remove button to every book which will delete the book whenever user clicks it.
